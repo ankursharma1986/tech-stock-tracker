@@ -1,10 +1,13 @@
 import express from 'express';
 import { fileURLToPath } from 'url';
 import { join, dirname } from 'path';
-import 'dotenv/config';
+import dotenv from 'dotenv';
 import { fetchStockPrices, fetchStockDetails } from './src/fetcher.js';
 import { checkAlerts } from './src/alerts.js';
 import { createRequire } from 'module';
+
+// Load .env for local development; on Render env vars are injected by the platform
+dotenv.config();
 
 const require = createRequire(import.meta.url);
 const config = require('./config.json');
@@ -54,7 +57,8 @@ app.get('/api/stock/:symbol/details', async (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`\n  Tech Stock Tracker → http://localhost:${PORT}\n`);
+  console.log(`\n  Tech Stock Tracker → http://localhost:${PORT}`);
+  console.log(`  FINNHUB_API_KEY: ${process.env.FINNHUB_API_KEY ? 'SET ✓' : 'NOT SET ✗'}\n`);
   refreshData();
   setInterval(refreshData, config.refreshInterval * 1000);
 });
