@@ -1,5 +1,35 @@
 const REFRESH_MS = 30000;
 
+// ─── Company logo map (Clearbit — free, no key) ───────────────
+const LOGOS = {
+  AAPL:  'apple.com',
+  GOOGL: 'google.com',
+  MSFT:  'microsoft.com',
+  AMZN:  'amazon.com',
+  NVDA:  'nvidia.com',
+  META:  'meta.com',
+  TSLA:  'tesla.com',
+  JPM:   'jpmorganchase.com',
+  V:     'visa.com',
+  JNJ:   'jnj.com',
+  WMT:   'walmart.com',
+  UNH:   'unitedhealthgroup.com',
+  XOM:   'exxonmobil.com',
+  LLY:   'lilly.com',
+  AVGO:  'broadcom.com',
+  PG:    'pg.com',
+  HD:    'homedepot.com',
+  MA:    'mastercard.com',
+  ORCL:  'oracle.com',
+  NFLX:  'netflix.com',
+  COST:  'costco.com',
+};
+
+function logoURL(symbol) {
+  const domain = LOGOS[symbol];
+  return domain ? `https://logo.clearbit.com/${domain}` : null;
+}
+
 let stocks = [];
 let alerts = [];
 let countdownTimer = null;
@@ -119,9 +149,17 @@ function cardHTML(stock, hasAlert, up) {
   const barLeft  = Math.min(Math.max(pos - 10, 0), 80);
   const barWidth = 20;
 
+  const logo = logoURL(stock.symbol);
+  const logoHTML = logo
+    ? `<img class="card-logo" src="${logo}" alt="${stock.symbol}" onerror="this.style.display='none'">`
+    : '';
+
   return `
     <div class="card-top">
-      <div class="card-symbol">${stock.symbol}</div>
+      <div class="card-symbol-row">
+        ${logoHTML}
+        <span class="card-symbol">${stock.symbol}</span>
+      </div>
       <div class="card-badge-row">
         ${hasAlert ? '<span class="alert-badge">ALERT</span>' : ''}
       </div>
@@ -163,8 +201,13 @@ function renderTicker() {
   const itemHTML = valid.map(s => {
     const up   = s.change >= 0;
     const sign = up ? '+' : '';
+    const logo = logoURL(s.symbol);
+    const tLogo = logo
+      ? `<img class="t-logo" src="${logo}" alt="${s.symbol}" onerror="this.style.display='none'">`
+      : '';
     return `
       <span class="ticker-item">
+        ${tLogo}
         <span class="t-symbol">${s.symbol}</span>
         <span class="t-price">$${fmt(s.price)}</span>
         <span class="t-change ${up ? 'up' : 'down'}">${sign}${s.changePercent.toFixed(2)}%</span>

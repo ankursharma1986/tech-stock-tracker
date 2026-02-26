@@ -143,6 +143,15 @@ header {
   font-size: 0.8rem;
 }
 
+.t-logo {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  object-fit: contain;
+  background: rgba(255,255,255,0.06);
+  flex-shrink: 0;
+}
+
 .t-symbol { font-weight: 700; color: var(--text); letter-spacing: 0.05em; }
 .t-price  { color: var(--text-dim); }
 .t-change { font-weight: 600; }
@@ -233,6 +242,22 @@ main { padding-bottom: 100px; }
   justify-content: space-between;
   align-items: flex-start;
   margin-bottom: 10px;
+}
+
+.card-symbol-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.card-logo {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  object-fit: contain;
+  background: rgba(255,255,255,0.06);
+  padding: 2px;
+  flex-shrink: 0;
 }
 
 .card-symbol {
