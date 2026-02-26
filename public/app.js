@@ -1,7 +1,9 @@
 const REFRESH_MS = 30000;
 
-// ─── Company logo map (Clearbit — free, no key) ───────────────
-const LOGOS = {
+// ─── Company logos ────────────────────────────────────────────
+// Primary: Google favicon service (reliable, always works)
+// Fallback: colored SVG letter avatar
+const DOMAINS = {
   AAPL:  'apple.com',
   GOOGL: 'google.com',
   MSFT:  'microsoft.com',
@@ -25,9 +27,31 @@ const LOGOS = {
   COST:  'costco.com',
 };
 
-function logoURL(symbol) {
-  const domain = LOGOS[symbol];
-  return domain ? `https://logo.clearbit.com/${domain}` : null;
+// Palette for letter avatars
+const AVATAR_COLORS = [
+  '#00b0ff','#00e676','#ff6d00','#7c4dff',
+  '#ff1744','#00bcd4','#ffab00','#4caf50',
+];
+
+function avatarSVG(symbol, size = 28) {
+  const color = AVATAR_COLORS[symbol.charCodeAt(0) % AVATAR_COLORS.length];
+  const letter = symbol[0];
+  const half = size / 2;
+  const fontSize = Math.round(size * 0.5);
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}"><rect width="${size}" height="${size}" rx="${Math.round(size * 0.22)}" fill="${color}"/><text x="${half}" y="${half + fontSize * 0.36}" font-family="monospace" font-size="${fontSize}" font-weight="800" text-anchor="middle" fill="white">${letter}</text></svg>`;
+  return `data:image/svg+xml,${encodeURIComponent(svg)}`;
+}
+
+function logoImgTag(symbol, cssClass) {
+  const domain = DOMAINS[symbol];
+  const primary = domain
+    ? `https://www.google.com/s2/favicons?domain=${domain}&sz=64`
+    : null;
+  const fallback = avatarSVG(symbol, cssClass === 't-logo' ? 18 : 28);
+  if (primary) {
+    return `<img class="${cssClass}" src="${primary}" alt="${symbol}" onerror="this.onerror=null;this.src='${fallback}'">`;
+  }
+  return `<img class="${cssClass}" src="${fallback}" alt="${symbol}">`;
 }
 
 let stocks = [];
@@ -149,10 +173,7 @@ function cardHTML(stock, hasAlert, up) {
   const barLeft  = Math.min(Math.max(pos - 10, 0), 80);
   const barWidth = 20;
 
-  const logo = logoURL(stock.symbol);
-  const logoHTML = logo
-    ? `<img class="card-logo" src="${logo}" alt="${stock.symbol}" onerror="this.style.display='none'">`
-    : '';
+  const logoHTML = logoImgTag(stock.symbol, 'card-logo');
 
   return `
     <div class="card-top">
@@ -201,10 +222,7 @@ function renderTicker() {
   const itemHTML = valid.map(s => {
     const up   = s.change >= 0;
     const sign = up ? '+' : '';
-    const logo = logoURL(s.symbol);
-    const tLogo = logo
-      ? `<img class="t-logo" src="${logo}" alt="${s.symbol}" onerror="this.style.display='none'">`
-      : '';
+    const tLogo = logoImgTag(s.symbol, 't-logo');
     return `
       <span class="ticker-item">
         ${tLogo}
