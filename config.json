@@ -1,0 +1,16 @@
+{
+  "stocks": [
+    "AAPL", "GOOGL", "MSFT", "AMZN", "NVDA", "META", "TSLA",
+    "JPM", "V", "JNJ", "WMT", "UNH", "XOM", "LLY",
+    "AVGO", "PG", "HD", "MA", "ORCL", "NFLX", "COST"
+  ],
+  "refreshInterval": 30,
+  "alerts": {
+    "AAPL":  { "above": 250, "below": 180 },
+    "NVDA":  { "above": 1000, "below": 700 },
+    "TSLA":  { "above": 400, "below": 200 },
+    "MSFT":  { "above": 500, "below": 350 },
+    "GOOGL": { "above": 220, "below": 150 },
+    "AMZN":  { "above": 250, "below": 170 }
+  }
+}

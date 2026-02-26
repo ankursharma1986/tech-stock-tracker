@@ -1,0 +1,18 @@
+{
+  "name": "tech-stock-tracker",
+  "version": "1.0.0",
+  "description": "Terminal-based tech stock tracker with live prices and alerts",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "web": "node server.js"
+  },
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "cli-table3": "^0.6.3",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "node-fetch": "^3.3.2"
+  }
+}

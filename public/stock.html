@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stock Detail — Tech Stock Tracker</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+</head>
+<body class="detail-page">
+
+  <!-- Header -->
+  <header>
+    <div class="header-left">
+      <a href="/" class="back-btn">← BACK</a>
+      <div class="detail-header-info">
+        <span id="detail-symbol" class="detail-symbol">—</span>
+        <span id="detail-name" class="detail-name">Loading...</span>
+      </div>
+    </div>
+    <div class="header-right">
+      <div id="detail-price-block" class="detail-price-block">
+        <span id="detail-price" class="detail-header-price">—</span>
+        <span id="detail-change" class="detail-header-change">—</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Loading overlay -->
+  <div id="detail-loading" class="detail-loading">
+    <div class="loading-spinner"></div>
+    <span>LOADING STOCK DATA...</span>
+  </div>
+
+  <!-- Main content (hidden until loaded) -->
+  <div id="detail-content" class="detail-content hidden">
+
+    <!-- Company banner -->
+    <div class="company-banner">
+      <div class="banner-left">
+        <div id="banner-logo" class="banner-logo"></div>
+        <div class="banner-info">
+          <div id="banner-name" class="banner-company-name">—</div>
+          <div class="banner-tags">
+            <span id="banner-exchange" class="tag">—</span>
+            <span id="banner-industry" class="tag">—</span>
+            <span id="banner-ipo" class="tag tag-dim">IPO —</span>
+          </div>
+        </div>
+      </div>
+      <div id="banner-weburl" class="banner-web"></div>
+    </div>
+
+    <!-- Chart section -->
+    <section class="chart-section">
+      <div class="section-header">
+        <span class="section-title">1-YEAR PRICE HISTORY</span>
+        <div class="chart-range-btns">
+          <button class="range-btn active" data-range="1Y">1Y</button>
+          <button class="range-btn" data-range="6M">6M</button>
+          <button class="range-btn" data-range="3M">3M</button>
+          <button class="range-btn" data-range="1M">1M</button>
+        </div>
+      </div>
+      <div class="chart-wrap">
+        <canvas id="price-chart"></canvas>
+      </div>
+    </section>
+
+    <!-- Key metrics -->
+    <section class="metrics-section">
+      <div class="section-header">
+        <span class="section-title">KEY METRICS</span>
+      </div>
+      <div id="metrics-grid" class="metrics-grid"></div>
+    </section>
+
+    <!-- About -->
+    <section id="about-section" class="about-section hidden">
+      <div class="section-header">
+        <span class="section-title">ABOUT</span>
+      </div>
+      <p id="about-text" class="about-text"></p>
+    </section>
+
+  </div>
+
+  <script src="stock.js"></script>
+</body>
+</html>

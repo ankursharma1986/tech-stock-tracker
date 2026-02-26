@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tech Stock Tracker</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="header-left">
+      <div class="logo">
+        <span class="logo-icon">◈</span>
+        <span class="logo-text">TECH STOCK TRACKER</span>
+      </div>
+      <div class="live-badge">
+        <span class="live-dot"></span>
+        LIVE
+      </div>
+    </div>
+    <div class="header-right">
+      <span id="market-label">NASDAQ · NYSE</span>
+      <span id="last-updated">Connecting...</span>
+      <span id="countdown"></span>
+    </div>
+  </header>
+
+  <!-- Scrolling Ticker -->
+  <div class="ticker-bar">
+    <div class="ticker-label">◀ LIVE</div>
+    <div class="ticker-viewport">
+      <div id="ticker-track" class="ticker-track">
+        <div id="ticker-items" class="ticker-items"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Dashboard -->
+  <main>
+    <div class="section-header">
+      <span class="section-title">MARKET OVERVIEW</span>
+      <span id="summary-stats" class="summary-stats"></span>
+    </div>
+    <div id="stock-grid" class="stock-grid">
+      <div class="loading-state">
+        <div class="loading-spinner"></div>
+        <span>FETCHING LIVE DATA...</span>
+      </div>
+    </div>
+  </main>
+
+  <!-- Alerts Panel -->
+  <div id="alerts-panel" class="alerts-panel hidden">
+    <div class="alerts-header">
+      <span class="alert-icon">⚑</span>
+      PRICE ALERTS
+      <button id="dismiss-alerts" class="dismiss-btn">DISMISS</button>
+    </div>
+    <div id="alerts-list" class="alerts-list"></div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
