@@ -1,0 +1,60 @@
+# render.yaml — Render Infrastructure-as-Code config
+# Docs: https://render.com/docs/blueprint-spec
+#
+# This file defines two services:
+#   1. tech-stock-tracker-web    — the Express dashboard (web service, HTTP)
+#   2. tech-stock-alert-agent   — the alert worker   (background worker, no HTTP)
+#
+# Deploy both by connecting this repo in the Render dashboard and selecting
+# "Blueprint" when creating a new service. All env vars marked sync:false
+# must be added manually in the Render dashboard under each service's
+# "Environment" tab.
+
+services:
+
+  # ── 1. Web dashboard ─────────────────────────────────────────────────────────
+  - type: web                        # Render exposes this on a public URL
+    name: tech-stock-tracker-web
+    env: node                        # Runtime environment
+    region: oregon                   # Closest to most US users; change if needed
+    plan: free                       # Free tier — upgradeable to paid for always-on
+
+    # Install dependencies from the project root, then start the Express server
+    buildCommand: npm install
+    startCommand: node server.js
+
+    envVars:
+      # Your Finnhub API key — set the value in the Render dashboard
+      - key: FINNHUB_API_KEY
+        sync: false                  # sync:false = you supply the value manually
+
+
+  # ── 2. Stock alert agent (background worker) ──────────────────────────────────
+  - type: worker                     # No HTTP port — runs as a persistent background process
+    name: tech-stock-alert-agent
+    env: node
+    region: oregon
+    plan: free
+
+    # Install the agent's own dependencies (resend, dotenv), then start the worker.
+    # The worker runs from the project root so it can load the shared .env file.
+    buildCommand: cd agent && npm install
+    startCommand: node agent/index.js
+
+    envVars:
+      # Shared with the web service — your Finnhub API key
+      - key: FINNHUB_API_KEY
+        sync: false
+
+      # Resend.com API key — create one at https://resend.com/api-keys
+      - key: RESEND_API_KEY
+        sync: false
+
+      # Email recipient — who receives the stock drop alerts
+      - key: ALERT_EMAIL_TO
+        sync: false
+
+      # Verified sender address — must be verified in your Resend account
+      # (e.g. alerts@yourdomain.com)
+      - key: ALERT_EMAIL_FROM
+        sync: false

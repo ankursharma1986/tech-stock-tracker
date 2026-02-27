@@ -1,0 +1,16 @@
+{
+  "name": "tech-stock-tracker-agent",
+  "version": "1.0.0",
+  "description": "Background worker that monitors tech stocks and sends email alerts via Resend",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.3.0",
+    "resend": "^4.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
