@@ -19,8 +19,8 @@ services:
     region: oregon                   # Closest to most US users; change if needed
     plan: free                       # Free tier — upgradeable to paid for always-on
 
-    # Install dependencies from the project root, then start the Express server
-    buildCommand: npm install
+    # Install root dependencies AND agent dependencies (resend runs inside this process)
+    buildCommand: npm install && cd agent && npm install
     startCommand: node server.js
 
     envVars:
