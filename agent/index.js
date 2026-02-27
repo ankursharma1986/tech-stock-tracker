@@ -160,7 +160,13 @@ async function main() {
   console.log(`[agent] Polling started. Waiting for market hours (9:30 AM – 4:00 PM ET)...`);
 }
 
-main().catch(err => {
-  console.error('[agent] Fatal startup error:', err);
-  process.exit(1);
-});
+// Run automatically when invoked directly: node agent/index.js
+// When require()'d by server.js, startAgent() is called explicitly instead.
+if (require.main === module) {
+  main().catch(err => {
+    console.error('[agent] Fatal startup error:', err);
+    process.exit(1);
+  });
+}
+
+module.exports = { startAgent: main };

@@ -11,6 +11,7 @@ dotenv.config();
 
 const require = createRequire(import.meta.url);
 const config = require('./config.json');
+const { startAgent } = require('./agent/index.js');
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
@@ -61,4 +62,6 @@ app.listen(PORT, () => {
   console.log(`  FINNHUB_API_KEY: ${process.env.FINNHUB_API_KEY ? 'SET ✓' : 'NOT SET ✗'}\n`);
   refreshData();
   setInterval(refreshData, config.refreshInterval * 1000);
+  // Start the stock alert agent in the same process
+  startAgent().catch(err => console.error('[agent] Startup error:', err.message));
 });
